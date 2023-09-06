@@ -5,6 +5,7 @@ import java.security.InvalidKeyException;
 import java.security.Signature;
 import java.security.SignatureException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import sun.security.provider.DSAPublicKeyImpl;
 
@@ -17,8 +18,7 @@ public class Block implements Serializable {
     private Integer miningPoints = 0;
     private Double luck = 0.0;
 
-    private ArrayList<Transaction> transactionLedger = new
-            ArrayList<>();
+    private ArrayList<Transaction> transactionLedger = new ArrayList<>();
 
     //This constructor is used when we retrieve it
     //from the db
@@ -81,5 +81,30 @@ public class Block implements Serializable {
 
     public ArrayList<Transaction> getTransactionLedger() {
         return transactionLedger;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Block block = (Block) o;
+        return Arrays.equals(prevHash, block.prevHash);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(prevHash);
+    }
+
+    @Override
+    public String toString() {
+        return "Block{" +
+                "prevHash=" + Arrays.toString(prevHash) +
+                ", minedBy=" + Arrays.toString(minedBy) +
+                ", timeStamp='" + timeStamp + '\'' +
+                ", ledgerId=" + ledgerId +
+                ", miningPoints=" + miningPoints +
+                ", luck=" + luck +
+                '}';
     }
 }
